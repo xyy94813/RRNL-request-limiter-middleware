@@ -1,0 +1,56 @@
+{
+  "name": "rrnl-request-limiter-middleware",
+  "version": "0.0.1",
+  "description": "A RRNL middleware for limit number of request",
+  "main": "dist/rrnl-request-limiter-middleware.min.js",
+  "module": "dist/rrnl-request-limiter-middleware.min.mjs",
+  "browser": "dist/rrnl-request-limiter-middleware.browser.js",
+  "typings": "dist/types/index.d.ts",
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "rollup -c rollup.config.mjs --bundleConfigAsCjs --configOnly",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint:es": "eslint .",
+    "format:es": "eslint . --fix",
+    "format:others": "prettier --write \"**/*.{md,mdx,xml,html,json,yaml,graphql}\"",
+    "format:all": "yarn format:others"
+  },
+  "keywords": [
+    "rrnl",
+    "react-relay",
+    "react-relay-network-layer",
+    "react",
+    "request limiter"
+  ],
+  "author": "Yiyuan Xing <xyy94813@sina.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xyy94813/RRNL-request-limiter-middleware.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xyy94813/RRNL-request-limiter-middleware/issues"
+  },
+  "homepage": "https://github.com/xyy94813/RRNL-request-limiter-middleware#readme",
+  "packageManager": "yarn@4.0.2",
+  "devDependencies": {
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.5",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "eslint": "^8.0.1",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-config-standard-with-typescript": "^43.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+    "eslint-plugin-promise": "^6.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.1.1",
+    "rollup": "^4.9.1",
+    "rollup-plugin-filesize": "^10.0.0",
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.3"
+  }
+}
