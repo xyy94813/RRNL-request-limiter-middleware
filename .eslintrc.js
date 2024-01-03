@@ -27,6 +27,8 @@ module.exports = {
       files: [
         '.eslintrc.{js,cjs}',
         './commitlint.config.js',
+        './jest.config.js',
+        './babel.config.js',
       ],
       env: {
         node: true,
