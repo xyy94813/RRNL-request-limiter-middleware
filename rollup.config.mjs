@@ -21,9 +21,9 @@ const testFileMatchers = [
   '**/*.spec.*',
 ]
 
-const deps = [...Object.keys(pkg.peerDependencies || {}), ...Object.keys(pkg.dependencies || {})]
+const deps = [...Object.keys(pkg.peerDependencies || {}), ...Object.keys(pkg.devDependencies || {})]
 
-const external = (id) => deps.includes(id) || /@babel\/runtime\//.test(id)
+const external = (id) => deps.includes(id) || /@babel\/runtime\//.test(id) || id === 'react-relay-network-modern/es'
 
 const generateDevOutputs = () => [
   {
@@ -58,12 +58,15 @@ const generateProdOutputs = () => {
       format: 'cjs',
       plugins,
     },
-    {
-      file: path.join(outputDir, 'rrnl-request-limiter-middleware.browser.js'),
-      name: 'createRRNLRequestLimiterMiddleware',
-      format: 'umd',
-      plugins,
-    },
+    // {
+    //   file: path.join(outputDir, 'rrnl-request-limiter-middleware.browser.js'),
+    //   name: 'createRRNLRequestLimiterMiddleware',
+    //   format: 'umd',
+    //   plugins,
+    //   globals: {
+    //     'react-relay-network-modern/es': 'react-relay-network-modern',
+    //   },
+    // },
   ]
 }
 

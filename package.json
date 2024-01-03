@@ -4,7 +4,6 @@
   "description": "A RRNL middleware for limit number of request",
   "main": "dist/rrnl-request-limiter-middleware.min.js",
   "module": "dist/rrnl-request-limiter-middleware.min.mjs",
-  "browser": "dist/rrnl-request-limiter-middleware.browser.js",
   "typings": "dist/types/index.d.ts",
   "scripts": {
     "prebuild": "rm -rf dist",
