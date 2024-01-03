@@ -33,7 +33,31 @@ The precision of the time parameter in variables is small, it is more likely to 
 
 ## How to use?
 
-TODO
+Install:
+
+```shell
+yarn add rrnl-request-limiter-middleware
+
+// or npm install rrnl-request-limiter-middleware
+```
+
+Usage:
+
+```js
+import createReqLimitedMiddleware from "rrnl-request-limiter-middleware";
+
+const network = new RelayNetworkLayer([
+  // your other middleware
+  // ...
+  cacheMiddleware(),
+  createReqLimitedMiddleware([
+    { duration: 60_000, limitTimes: 60 }, // Maximum 60 requests in 60 second for a query id
+    { duration: 1_000, limitTimes: 3 }, // Maximum 3 requests in 1 second for a query id
+  ]),
+  // your other middlewares
+  // ...
+]);
+```
 
 ## How to contribute?
 

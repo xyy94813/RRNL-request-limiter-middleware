@@ -18,6 +18,9 @@ module.exports = {
         ecmaVersion: 'latest',
         sourceType: 'module',
       },
+      rules: {
+        '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+      },
     },
     {
       // config files
