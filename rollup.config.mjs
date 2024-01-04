@@ -23,7 +23,7 @@ const testFileMatchers = [
 
 const deps = [...Object.keys(pkg.peerDependencies || {}), ...Object.keys(pkg.devDependencies || {})]
 
-const external = (id) => deps.includes(id) || /@babel\/runtime\//.test(id) || id === 'react-relay-network-modern/es'
+const external = (id) => deps.includes(id)
 
 const generateDevOutputs = () => [
   {

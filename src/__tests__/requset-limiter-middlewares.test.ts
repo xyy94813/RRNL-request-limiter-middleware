@@ -2,7 +2,7 @@
 import {
   RRNLRequestError,
   type MiddlewareNextFn
-} from 'react-relay-network-modern/es'
+} from 'react-relay-network-modern'
 
 import createReqLimitedMiddleware from '../requset-limiter-middlewares'
 

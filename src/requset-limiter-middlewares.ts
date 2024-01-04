@@ -4,7 +4,7 @@ import {
   type Middleware,
   type MiddlewareNextFn,
   type RelayRequestAny
-} from 'react-relay-network-modern/es'
+} from 'react-relay-network-modern'
 
 import RequestTimeRecorder from './RequestTimeRecorder'
 
