@@ -48,15 +48,15 @@ const createReqLimitedMiddleware = (limiters: RequestTimesLimiter[]): Middleware
     const now: number = Date.now()
     const queryId: string = (req as RelayNetworkLayerRequest).getID()
 
-    recorder.saveRecord(queryId, now)
-
-    if (limiters.some(({ duration, limitTimes }) => recorder.getRequestTimes(queryId, duration) > limitTimes)) {
+    if (limiters.some(({ duration, limitTimes }) => recorder.getRequestTimes(queryId, duration) >= limitTimes)) {
       const error = new RRNLRequestError(
         `Relay request for '${req.getID()}' failed by 'too many requests'`
       )
       error.req = req
       throw error
     }
+
+    recorder.saveRecord(queryId, now)
 
     return await next(req)
   }
