@@ -2,13 +2,16 @@
 
 A RRNL middleware for limit number of request
 
-<!-- [![latest version](https://img.shields.io/npm/v/rrnl-request-limiter-middleware.svg?label=latest%20%20version)](https://www.npmjs.org/package/rrnl-request-limiter-middleware)
-[![License](https://img.shields.io/npm/l/rrnl-request-limiter-middleware?label=latest%20%20version%20%20license)](https://www.npmjs.org/package/rrnl-request-limiter-middleware)
-[![npm downloads](https://img.shields.io/npm/dm/rrnl-request-limiter-middleware.svg)](http://npmjs.com/rrnl-request-limiter-middleware)
-[![minimized gzipped size](https://img.shields.io/bundlejs/size/rrnl-request-limiter-middleware)](http://npmjs.com/rrnl-request-limiter-middleware) -->
-
 [![GitHub Repo stars](https://img.shields.io/github/stars/xyy94813/rrnl-request-limiter-middleware?label=github%20%20stars)](https://github.com/xyy94813/rrnl-request-limiter-middleware)
 [![last commit (branch)](https://img.shields.io/github/last-commit/xyy94813/rrnl-request-limiter-middleware/main)](https://github.com/xyy94813/rrnl-request-limiter-middleware)
+
+[![latest version](https://img.shields.io/npm/v/rrnl-request-limiter-middleware.svg?label=latest%20%20version)](https://www.npmjs.org/package/rrnl-request-limiter-middleware)
+[![License](https://img.shields.io/npm/l/rrnl-request-limiter-middleware?label=latest%20%20version%20%20license)](https://www.npmjs.org/package/rrnl-request-limiter-middleware)
+[![npm downloads](https://img.shields.io/npm/dm/rrnl-request-limiter-middleware.svg)](http://npmjs.com/rrnl-request-limiter-middleware)
+[![minimized gzipped size](https://img.shields.io/bundlejs/size/rrnl-request-limiter-middleware)](http://npmjs.com/rrnl-request-limiter-middleware)
+
+[![Codecov workflow](https://github.com/xyy94813/rrnl-request-limiter-middleware/actions/workflows/codecov.yml/badge.svg?branch=main)](https://github.com/xyy94813/rrnl-request-limiter-middleware/actions/workflows/codecov.yml)
+[![codecov](https://codecov.io/gh/xyy94813/rrnl-request-limiter-middleware/branch/main/graph/badge.svg?token=DCC845JGZW)](https://codecov.io/gh/xyy94813/rrnl-request-limiter-middleware)
 
 ## Why need this middleware?
 
@@ -65,7 +68,7 @@ const network = new RelayNetworkLayer([
 
 ## Changelog
 
-TODO
+[Change Logs](https://github.com/xyy94813/rrnl-request-limiter-middleware/blob/main/CHANGELOG.md)
 
 ## License
 
