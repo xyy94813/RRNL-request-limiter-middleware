@@ -1,6 +1,6 @@
 {
   "name": "rrnl-request-limiter-middleware",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A RRNL middleware for limit number of request",
   "main": "dist/rrnl-request-limiter-middleware.min.js",
   "module": "dist/rrnl-request-limiter-middleware.min.mjs",

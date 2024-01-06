@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/xyy94813/RRNL-request-limiter-middleware/compare/v1.1.0...v1.1.1) (2024-01-06)
+
+
+### Bug Fixes
+
+* wrong after time ([760e573](https://github.com/xyy94813/RRNL-request-limiter-middleware/commit/760e573ae46e9914e330da32c7bd9054801f9ed2))
+
 ## [1.1.0](https://github.com/xyy94813/RRNL-request-limiter-middleware/compare/v1.0.0...v1.1.0) (2024-01-05)
 
 
