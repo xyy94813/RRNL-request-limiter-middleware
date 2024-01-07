@@ -54,8 +54,8 @@ describe('createReqLimitedMiddleware', () => {
 
     const result = await middleware(next)(req)
 
-    expect(next).toBeCalledTimes(1)
-    expect(next).toBeCalledWith(req)
+    expect(next).toHaveBeenCalledTimes(1)
+    expect(next).toHaveBeenCalledWith(req)
     expect(result).toEqual({})
   })
 
