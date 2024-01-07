@@ -60,10 +60,10 @@ describe('createReqLimitedMiddleware', () => {
   })
 
   test('trigger limiter error', async () => {
-    const limiters = [{ duration: 1_000, limitTimes: 2 }]
+    const limiters = [{ duration: 200, limitTimes: 2 }]
     const middleware = createReqLimitedMiddleware(limiters)
 
-    const next = jest.fn()
+    const next = jest.fn().mockResolvedValue({})
     const req: any = createMockReq()
 
     await middleware(next)(req)
@@ -71,5 +71,10 @@ describe('createReqLimitedMiddleware', () => {
 
     // The promise should be rejected when the limit is exceeded
     await expect(middleware(next)(req)).rejects.toThrow(RRNLRequestError)
+
+    // after 1 seconds, should be ok
+    await new Promise(resolve => globalThis.setTimeout(resolve, 200))
+    const result = await middleware(next)(req)
+    expect(result).toEqual({})
   })
 })

@@ -1492,7 +1492,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
+"@types/node@npm:*, @types/node@npm:^20.10.0":
   version: 20.10.6
   resolution: "@types/node@npm:20.10.6"
   dependencies:
@@ -6604,6 +6604,7 @@ __metadata:
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.1.5"
     "@types/jest": "npm:^29.5.11"
+    "@types/node": "npm:^20.10.0"
     "@types/relay-runtime": "npm:^10"
     "@typescript-eslint/eslint-plugin": "npm:^6.4.0"
     eslint: "npm:^8.0.1"
