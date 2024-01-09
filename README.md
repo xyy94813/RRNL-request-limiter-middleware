@@ -47,20 +47,45 @@ yarn add rrnl-request-limiter-middleware
 Usage:
 
 ```js
-import createReqLimitedMiddleware from "rrnl-request-limiter-middleware";
+import {
+  createReqLimitedMiddleware,
+  SlidingLogRateLimiter,
+} from "rrnl-request-limiter-middleware";
 
 const network = new RelayNetworkLayer([
   // your other middleware
   // ...
   cacheMiddleware(),
-  createReqLimitedMiddleware([
-    { duration: 60_000, limitTimes: 60 }, // Maximum 60 requests in 60 second for a query id
-    { duration: 1_000, limitTimes: 3 }, // Maximum 3 requests in 1 second for a query id
-  ]),
+  createReqLimitedMiddleware(
+    new SlidingLogRateLimiter([
+      { duration: 60_000, limitTimes: 60 }, // Maximum 60 requests in 60 second for a query id
+      { duration: 1_000, limitTimes: 3 }, // Maximum 3 requests in 1 second for a query id
+    ]),
+  ),
   // your other middlewares
   // ...
 ]);
 ```
+
+Use with `TokenBucketRateLimiter`:
+
+```js
+import {
+  createReqLimitedMiddleware,
+  TokenBucketRateLimiter,
+} from "rrnl-request-limiter-middleware";
+
+const network = new RelayNetworkLayer([
+  // your other middleware
+  // ...
+  cacheMiddleware(),
+  createReqLimitedMiddleware(new TokenBucketRateLimiter(20, 1)),
+  // your other middlewares
+  // ...
+]);
+```
+
+**NOTE: Currently, `TokenBucketRateLimiter` does not distinguish between queryId limits, in order to avoid overly timed tasks. **
 
 ## How to contribute?
 
