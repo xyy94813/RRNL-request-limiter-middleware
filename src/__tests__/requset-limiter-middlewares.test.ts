@@ -4,6 +4,7 @@ import {
   type MiddlewareNextFn
 } from 'react-relay-network-modern'
 
+import SlidingLogRateLimiter from '../SlidingLogRateLimiter'
 import createReqLimitedMiddleware from '../requset-limiter-middlewares'
 
 const createMockReq = (): any => ({
@@ -16,38 +17,9 @@ const createMockReq = (): any => ({
 })
 
 describe('createReqLimitedMiddleware', () => {
-  test('wrong limiter', () => {
-    expect(() => {
-      createReqLimitedMiddleware([
-        { duration: '1', limitTimes: 1 } as any
-      ])
-    }).toThrow('Request limiter duration must be number')
-
-    expect(() => {
-      createReqLimitedMiddleware([
-        { duration: 1, limitTimes: '1' } as any
-      ])
-    }).toThrow('Request limiter limitTimes must be number')
-  })
-
-  test('empty limiters', () => {
-    expect(() => {
-      createReqLimitedMiddleware([])
-    }).toThrow('No limiter')
-  })
-
-  test('repeated limiters duration', () => {
-    expect(() => {
-      createReqLimitedMiddleware([
-        { duration: 1, limitTimes: 1 },
-        { duration: 1, limitTimes: 100 }
-      ])
-    }).toThrow('Duration \'1\' is repeated')
-  })
-
   test('normal request', async () => {
-    const limiters = [{ duration: 1_000, limitTimes: 3 }]
-    const middleware = createReqLimitedMiddleware(limiters)
+    const limiter = new SlidingLogRateLimiter([{ duration: 1_000, limitTimes: 3 }])
+    const middleware = createReqLimitedMiddleware(limiter)
 
     const next: MiddlewareNextFn = jest.fn().mockResolvedValue({})
     const req: any = createMockReq()
@@ -60,8 +32,7 @@ describe('createReqLimitedMiddleware', () => {
   })
 
   test('trigger limiter error', async () => {
-    const limiters = [{ duration: 200, limitTimes: 2 }]
-    const middleware = createReqLimitedMiddleware(limiters)
+    const middleware = createReqLimitedMiddleware([{ duration: 200, limitTimes: 2 }])
 
     const next = jest.fn().mockResolvedValue({})
     const req: any = createMockReq()
@@ -72,7 +43,7 @@ describe('createReqLimitedMiddleware', () => {
     // The promise should be rejected when the limit is exceeded
     await expect(middleware(next)(req)).rejects.toThrow(RRNLRequestError)
 
-    // after 1 seconds, should be ok
+    // after 200ms, should be ok
     await new Promise(resolve => globalThis.setTimeout(resolve, 200))
     const result = await middleware(next)(req)
     expect(result).toEqual({})
