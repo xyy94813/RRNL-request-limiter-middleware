@@ -85,7 +85,7 @@ const network = new RelayNetworkLayer([
 ]);
 ```
 
-**NOTE: Currently, `TokenBucketRateLimiter` does not distinguish between queryId limits, in order to avoid overly timed tasks. **
+**NOTE: Currently, `TokenBucketRateLimiter` does not distinguish between queryId limits, in order to avoid overly timed tasks.**
 
 ## How to contribute?
 
