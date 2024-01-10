@@ -14,6 +14,13 @@ class SlidingLogRateLimiter implements RateLimiter {
 
     this.timeWindows = timeWindows
     this.recorder = new RequestTimeRecorder()
+
+    const maxDuration = Math.max(...timeWindows.map(({ duration }) => duration))
+
+    // auto clear records for reduce memory
+    globalThis.setInterval(() => {
+      this.recorder.clearRecords(Date.now() - maxDuration)
+    }, maxDuration)
   }
 
   private readonly isAllow = (req: RelayRequestAny): boolean => {
