@@ -41,6 +41,21 @@ describe('SlidingLogRateLimiter', () => {
         limiter.tryLimit(createMockRequest() as RelayRequestAny)
       }).not.toThrow()
     })
+
+    test('auto clear record should be work', async () => {
+      jest.spyOn(globalThis, 'setInterval')
+
+      // eslint-disable-next-line no-new
+      new SlidingLogRateLimiter([
+        { duration: 1_00, limitTimes: 1 },
+        { duration: 2_00, limitTimes: 1 }
+      ])
+
+      expect(globalThis.setInterval).toHaveBeenCalledWith(expect.any(Function), 200)
+
+      await sleep(1_000)
+      // TODO: validate clearRecord should be work correct
+    })
   })
 
   describe('method `tryLimit`', () => {

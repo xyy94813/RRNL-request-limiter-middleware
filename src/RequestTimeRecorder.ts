@@ -28,8 +28,12 @@ class RequestTimeRecorder {
     return result
   }
 
-  // TODO: clear record proxy
-  // clearRecord = () => {}
+  clearRecords = (before: number): void => {
+    for (const queryId in this.store) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      this.store[queryId] = this.store[queryId]!.filter(reqTime => reqTime > before)
+    }
+  }
 };
 
 export default RequestTimeRecorder
