@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0](https://github.com/xyy94813/RRNL-request-limiter-middleware/compare/v1.1.1...v1.2.0) (2024-01-11)
+
+
+### Features
+
+* **SlidingLogRateLimiter:** auto clear expired record ([afd6aee](https://github.com/xyy94813/RRNL-request-limiter-middleware/commit/afd6aee7bd527bd572fd9577aae7d6c60981a0c1))
+* support TokenBucketRateLimiter ([aa7e4b3](https://github.com/xyy94813/RRNL-request-limiter-middleware/commit/aa7e4b354e7f434c5cf1d452a1afd0f3626fe627))
+
 ## [1.1.1](https://github.com/xyy94813/RRNL-request-limiter-middleware/compare/v1.1.0...v1.1.1) (2024-01-06)
 
 
