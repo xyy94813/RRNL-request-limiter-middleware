@@ -48,7 +48,7 @@ Usage:
 
 ```js
 import {
-  createReqLimitedMiddleware,
+  createRequestLimiterMiddleware,
   SlidingLogRateLimiter,
 } from "rrnl-request-limiter-middleware";
 
@@ -56,7 +56,7 @@ const network = new RelayNetworkLayer([
   // your other middleware
   // ...
   cacheMiddleware(),
-  createReqLimitedMiddleware(
+  createRequestLimiterMiddleware(
     new SlidingLogRateLimiter([
       { duration: 60_000, limitTimes: 60 }, // Maximum 60 requests in 60 second for a query id
       { duration: 1_000, limitTimes: 3 }, // Maximum 3 requests in 1 second for a query id
@@ -71,7 +71,7 @@ Use with `TokenBucketRateLimiter`:
 
 ```js
 import {
-  createReqLimitedMiddleware,
+  createRequestLimiterMiddleware,
   TokenBucketRateLimiter,
 } from "rrnl-request-limiter-middleware";
 
@@ -79,7 +79,7 @@ const network = new RelayNetworkLayer([
   // your other middleware
   // ...
   cacheMiddleware(),
-  createReqLimitedMiddleware(new TokenBucketRateLimiter(20, 1)),
+  createRequestLimiterMiddleware(new TokenBucketRateLimiter(20, 1)),
   // your other middlewares
   // ...
 ]);

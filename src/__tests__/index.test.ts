@@ -1,16 +1,16 @@
 import defaultExport, {
-  createReqLimitedMiddleware,
+  createRequestLimiterMiddleware,
   SlidingLogRateLimiter,
   TokenBucketRateLimiter
 } from '../index'
 
 describe('entry file `index.ts`', () => {
   test('default is `createReqLimitedMiddleware`', () => {
-    expect(defaultExport).toBe(createReqLimitedMiddleware)
+    expect(defaultExport).toBe(createRequestLimiterMiddleware)
   })
 
   test('createReqLimitedMiddleware is exported', () => {
-    expect(createReqLimitedMiddleware).not.toBe(undefined)
+    expect(createRequestLimiterMiddleware).not.toBe(undefined)
   })
 
   test('SlidingLogRateLimiter is exported', () => {
