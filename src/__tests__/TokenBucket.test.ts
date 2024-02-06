@@ -67,4 +67,20 @@ describe('TokenBucket', () => {
       }).not.toThrow(Error)
     })
   })
+
+  describe('method `onTokenGenerated`', () => {
+    test('success subscribe and dispose', async () => {
+      const tokenBucket = new TokenBucket(2, 50)
+      const observer = jest.fn()
+      const dispose = tokenBucket.onTokenGenerated(observer)
+      await sleep(60)
+      // should be called after token generated
+      expect(observer).toHaveBeenCalledTimes(1)
+
+      dispose() // success dispose
+      await sleep(50)
+      // should not be called after dispose after token generated
+      expect(observer).toHaveBeenCalledTimes(1)
+    })
+  })
 })

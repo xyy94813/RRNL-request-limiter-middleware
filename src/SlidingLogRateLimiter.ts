@@ -1,7 +1,8 @@
 import { type RelayNetworkLayerRequest, type RelayRequestAny, RRNLRequestError } from 'react-relay-network-modern'
 
-import { type RateLimiter } from './interface'
+import { type RateLimiter, type LimitPolicy } from './interface'
 import RequestTimeRecorder from './RequestTimeRecorder'
+import sleep from './sleep'
 
 export type TimeWindow = { duration: number, limitTimes: number }
 
@@ -23,30 +24,52 @@ class SlidingLogRateLimiter implements RateLimiter {
     }, maxDuration)
   }
 
-  private readonly isAllow = (req: RelayRequestAny): boolean => {
-    const now: number = Date.now()
-    const queryId: string = (req as RelayNetworkLayerRequest).getID()
-
-    return this.timeWindows.every(({ duration, limitTimes }) => this.recorder.getRequestTimes(queryId, now - duration) < limitTimes)
+  private readonly isAllow = (queryId: string, newReqTime: number): boolean => {
+    return this.timeWindows.every(({ duration, limitTimes }) =>
+      this.recorder.getRequestTimes(queryId, newReqTime - duration) < limitTimes
+    )
   }
 
-  private readonly executeLimit = (req: RelayRequestAny): any => {
+  private readonly getWaitTime = (queryId: string, newReqTime: number): number => {
+    return Math.max(
+      ...this.timeWindows
+      // filter time windows that can be hits
+        .filter(({ duration, limitTimes }) =>
+          this.recorder.getRequestTimes(queryId, newReqTime - duration) >= limitTimes
+        )
+        .map(({ duration }) => {
+          const start = newReqTime - duration
+          const end = newReqTime + 1
+          const firstReqTime = this.recorder.getFirstRequestTimeInRange(queryId, start, end)
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          return (firstReqTime)! - start
+        })
+    )
+  }
+
+  private readonly throwRejectError = (req: RelayRequestAny): void => {
     const error = new RRNLRequestError(
-          `Relay request for '${req.getID()}' failed by 'too many requests'`
+      `Relay request for '${req.getID()}' failed by 'too many requests'`
     )
     error.req = req
     throw error
   }
 
-  tryLimit = (req: RelayRequestAny): void => {
+  tryLimit = async (req: RelayRequestAny, limitPolicy: LimitPolicy): Promise<void> => {
     const now: number = Date.now()
     const queryId: string = (req as RelayNetworkLayerRequest).getID()
 
-    if (!this.isAllow(req)) {
-      this.executeLimit(req)
-    }
+    if (this.isAllow(queryId, now)) {
+      this.recorder.saveRecord(queryId, now)
+    } else {
+      if (limitPolicy === 'reject') {
+        this.throwRejectError(req)
+      }
 
-    this.recorder.saveRecord(queryId, now)
+      const waitTime = this.getWaitTime(queryId, now)
+      await sleep(waitTime)
+      await this.tryLimit(req, limitPolicy)
+    }
   }
 
   static validateTimeWindow (timeWindow: TimeWindow): void {

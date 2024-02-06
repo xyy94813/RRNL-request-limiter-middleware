@@ -48,4 +48,17 @@ describe('createReqLimitedMiddleware', () => {
     const result = await middleware(next)(req)
     expect(result).toEqual({})
   })
+
+  test('with "wait" policy', async () => {
+    const middleware = createReqLimitedMiddleware([{ duration: 200, limitTimes: 2 }], 'wait')
+
+    const mockResolvedValue = {}
+    const next = jest.fn().mockResolvedValue(mockResolvedValue)
+    const req: any = createMockReq()
+
+    await middleware(next)(req)
+    await middleware(next)(req)
+
+    await expect(middleware(next)(req)).resolves.toBe(mockResolvedValue)
+  })
 })

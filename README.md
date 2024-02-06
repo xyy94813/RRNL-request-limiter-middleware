@@ -87,6 +87,24 @@ const network = new RelayNetworkLayer([
 
 **NOTE: Currently, `TokenBucketRateLimiter` does not distinguish between queryId limits, in order to avoid overly timed tasks.**
 
+With `wait` limit policy:
+
+```js
+import {
+  createRequestLimiterMiddleware,
+  TokenBucketRateLimiter,
+} from "rrnl-request-limiter-middleware";
+
+const network = new RelayNetworkLayer([
+  // your other middleware
+  // ...
+  cacheMiddleware(),
+  createRequestLimiterMiddleware(new TokenBucketRateLimiter(20, 1), "wait"),
+  // your other middlewares
+  // ...
+]);
+```
+
 ## How to contribute?
 
 [Contributing Guild](https://github.com/xyy94813/rrnl-request-limiter-middleware/blob/main/Contributing.md)
