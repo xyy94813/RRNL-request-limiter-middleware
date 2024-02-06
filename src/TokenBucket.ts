@@ -1,8 +1,11 @@
+type TokenBucketObserver = () => void
+type TokenBucketObserverDispose = () => void
+
 class TokenBucket {
   private readonly maxSize: number
   private tokens: number // don't need to generate token, because we don't need consider concurrency in js
   private readonly addonSize: number
-
+  private readonly tokenGeneratedObserverList = new Set<TokenBucketObserver>()
   /**
    * Constructs a new instance of the class.
    *
@@ -33,6 +36,9 @@ class TokenBucket {
 
   private readonly generateTokens = (): this => {
     this.tokens = Math.min(this.tokens + this.addonSize, this.maxSize)
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/forEach
+    // with insert order
+    this.tokenGeneratedObserverList.forEach((observer) => { observer() })
     return this
   }
 
@@ -44,6 +50,14 @@ class TokenBucket {
     this.tokens -= 1
 
     return this
+  }
+
+  readonly onTokenGenerated = (observer: TokenBucketObserver): TokenBucketObserverDispose => {
+    this.tokenGeneratedObserverList.add(observer)
+    const dispose: TokenBucketObserverDispose = () => {
+      this.tokenGeneratedObserverList.delete(observer)
+    }
+    return dispose
   }
 }
 

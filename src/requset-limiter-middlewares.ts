@@ -4,10 +4,10 @@ import {
   type RelayRequestAny
 } from 'react-relay-network-modern'
 
-import { type RateLimiter } from './interface'
+import { type RateLimiter, type LimitPolicy } from './interface'
 import SlidingLogRateLimiter, { type TimeWindow } from './SlidingLogRateLimiter'
 
-const createReqLimitedMiddleware = (input: RateLimiter | TimeWindow[]): Middleware => {
+const createReqLimitedMiddleware = (input: RateLimiter | TimeWindow[], limitPolicy: LimitPolicy = 'reject'): Middleware => {
   let limiter: RateLimiter
   if (Array.isArray(input)) {
     // Compatible with old inputs,
@@ -18,7 +18,7 @@ const createReqLimitedMiddleware = (input: RateLimiter | TimeWindow[]): Middlewa
   }
 
   return (next: MiddlewareNextFn) => async (req: RelayRequestAny) => {
-    limiter.tryLimit(req)
+    await limiter.tryLimit(req, limitPolicy)
 
     return await next(req)
   }

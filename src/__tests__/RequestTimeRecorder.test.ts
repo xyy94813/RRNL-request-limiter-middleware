@@ -28,6 +28,26 @@ describe('RequestTimeRecorder', () => {
     })
   })
 
+  describe('method `getFirstRequestTimeInRange`', () => {
+    test('get first request time of query-id in range', () => {
+      const now = Date.now()
+      recorder.saveRecord('query1', now)
+      recorder.saveRecord('query1', now + 100)
+      recorder.saveRecord('query2', now + 100)
+      recorder.saveRecord('query1', now + 200)
+
+      expect(recorder.getFirstRequestTimeInRange('query1', now, now + 300)).toBe(now)
+      expect(recorder.getFirstRequestTimeInRange('query2', now, now + 300)).toBe(now + 100)
+    })
+
+    test('not include end', () => {
+      const now = Date.now()
+      recorder.saveRecord('query1', now + 200)
+
+      expect(recorder.getFirstRequestTimeInRange('query1', now, now + 200)).toBe(undefined)
+    })
+  })
+
   describe('method `clearRecords`', () => {
     test('clear all store successfully', () => {
       const now = Date.now()

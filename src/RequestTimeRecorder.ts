@@ -29,6 +29,21 @@ class RequestTimeRecorder {
     return result
   }
 
+  /**
+   * Get the first request time in the time window.
+   * If no request time in the time window, return undefined.
+   * [start, end)
+   *
+   * @param queryId
+   * @param start
+   * @param end
+   * @returns
+   */
+  getFirstRequestTimeInRange = (queryId: string, start: number, end: number): number | undefined => {
+    const recorder = this.getRecorder(queryId)
+    return recorder.find(reqTime => reqTime >= start && reqTime < end)
+  }
+
   readonly clearRecords = (before: number): void => {
     for (const queryId in this.store) {
       this.store[queryId] = this.getRecorder(queryId).filter(reqTime => reqTime > before)
