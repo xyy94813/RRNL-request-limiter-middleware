@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/xyy94813/RRNL-request-limiter-middleware/compare/v1.2.1...v1.3.0) (2024-02-06)
+
+
+### Features
+
+* the flow-limiting enforcement policy supports "wait" ([a2a3458](https://github.com/xyy94813/RRNL-request-limiter-middleware/commit/a2a3458dcb54fe9acb47fca34690a2c1ecb75bee))
+
 ## [1.2.1](https://github.com/xyy94813/RRNL-request-limiter-middleware/compare/v1.2.0...v1.2.1) (2024-01-11)
 
 
