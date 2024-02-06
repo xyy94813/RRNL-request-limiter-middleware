@@ -1,25 +1,26 @@
 class RequestTimeRecorder {
-  private readonly store: Record<string, number[] | undefined> = Object.create(null)
+  private readonly store: Record<string, number[]> = Object.create(null)
 
-  saveRecord = (queryId: string, reqTime: number): this => {
+  private readonly getRecorder = (queryId: string): number[] => {
     if (!Array.isArray(this.store[queryId])) {
       this.store[queryId] = []
     }
+    return this.store[queryId]
+  }
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    this.store[queryId]!.push(reqTime)
-
+  readonly saveRecord = (queryId: string, reqTime: number): this => {
+    const recorder = this.getRecorder(queryId)
+    recorder.push(reqTime)
     return this
   }
 
-  getRequestTimes = (queryId: string, after: number): number => {
-    const reqTimeSet = this.store[queryId]
-
-    if (!Array.isArray(reqTimeSet)) return 0
+  readonly getRequestTimes = (queryId: string, after: number): number => {
+    // reduce memory
+    if (!Array.isArray(this.store[queryId])) return 0
 
     let result = 0
 
-    reqTimeSet.forEach(reqTime => {
+    this.getRecorder(queryId).forEach(reqTime => {
       if (reqTime >= after) {
         result++
       }
@@ -28,10 +29,9 @@ class RequestTimeRecorder {
     return result
   }
 
-  clearRecords = (before: number): void => {
+  readonly clearRecords = (before: number): void => {
     for (const queryId in this.store) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.store[queryId] = this.store[queryId]!.filter(reqTime => reqTime > before)
+      this.store[queryId] = this.getRecorder(queryId).filter(reqTime => reqTime > before)
     }
   }
 };
